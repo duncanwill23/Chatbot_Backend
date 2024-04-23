@@ -30,12 +30,14 @@ ALLOWED_HOSTS = []
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://10.21.51.58:3000"
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://10.21.51.58:3000",
+#     "http://127.0.0.1:8000/chatbot/"
+# ]
 
 INSTALLED_APPS = [
+    'django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'djongo',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +89,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'ENFORCE_SCHEMA': False,  # Set to True if you want to enforce schema validation
-        'NAME': 'mydatabase',     # Name of your MongoDB database
+        'NAME': 'myAtlasClusterEDU',     # Name of your MongoDB database
         'CLIENT': {
             'host': 'mongodb+srv://Blobman:Blobman@myatlasclusteredu.hrwoqma.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU',  # MongoDB host
         }

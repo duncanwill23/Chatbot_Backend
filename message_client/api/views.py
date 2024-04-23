@@ -3,6 +3,10 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from pymongo import MongoClient
 import json
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from langchain_community.embeddings.openai import OpenAIEmbeddings
 from langchain_community.vectorstores import MongoDBAtlasVectorSearch
@@ -11,39 +15,13 @@ from langchain_community.llms import OpenAI
 from langchain.chains import RetrievalQA
 
 # Create your views here.
-@csrf_exempt
-def send_message(request):
-    if request.method == 'POST':
-        print(request.POST)
-        #put info into database
-        
-        response = JsonResponse({'message': 'Hello, World!'}, status=200)
-        return response
-    else:
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-@csrf_exempt
-def get_doctors(request):
-    if request.method == 'GET':
-        response = JsonResponse([{ 'name': 'Dr. John Doe', 'specialty': 'Cardiologist' }, { 'name': 'Dr. Jane Smith', 'specialty': 'Neurologist' }], safe=False, status=200)
-        return response
-    else:
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-    
-@csrf_exempt
-def get_provider(request):
-    if request.method == 'GET':
-        response = JsonResponse([{ 'name': 'Blue Cross Blue Sheild'}, { 'name': 'Metlife'}], safe=False, status=200)
-        return response
-    else:
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-    
 @csrf_exempt
 def chatbot_view(request):
     if request.method == 'POST':
         key_param = {
-            "MONGO_URI": "mongodb+srv://Blobman:Blobman@myatlasclusteredu.hrwoqma.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU",
-            "open_api_key": "openai_api_key_here"
+            "MONGO_URI": os.getenv("MONGO_URI"),
+            "open_api_key": os.getenv("OPENAI_API_KEY")
         }
         
         data = json.loads(request.body)
